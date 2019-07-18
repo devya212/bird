@@ -1,0 +1,43 @@
+create table customer0101
+(
+customer_id NUMBER(10) not null,
+customer_code varchar2(10) not null,
+customer_name varchar2(30) not null,
+cust_address1 varchar2(100) not null,
+cust_address2 varchar2(100),
+pin number(6) not null,
+email varchar2(100) not null,
+contactno number(20),
+contact_person varchar2(100) not null,
+record_status varchar2(1) not null,
+flag varchar2(1) not null,
+create_date date not null,
+created_by varchar2(30) not null,
+modified_date date,
+modified_by varchar2(30),
+authorized_date date,
+authorized_by varchar2(30)
+);
+CREATE OR REPLACE TRIGGER CUST_TRG 
+BEFORE INSERT ON customer0101 
+FOR EACH ROW
+WHEN (new.customer_id IS NULL)
+BEGIN
+  SELECT seq_customer.NEXTVAL
+  INTO   :new.customer_id
+  FROM   dual;
+END;
+/
+CREATE SEQUENCE MAPS_SEQ;
+CREATE TABLE MAPS
+(
+  MAP_ID INTEGER NOT NULL ,
+  MAP_NAME VARCHAR(24) NOT NULL,
+  UNIQUE (MAP_ID, MAP_NAME)
+);
+
+CREATE SEQUENCE seq_customer
+MINVALUE 1
+START WITH 1
+INCREMENT BY 1
+CACHE 10;
